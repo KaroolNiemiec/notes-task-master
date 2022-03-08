@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 const Note = ({ id, text, date, handleDeleteNote }) => {
   return (
     <div className="mb-3">
-      <Card>
+      <Card style={{ backgroundColor: "lightgray" }}>
         <Card.Body>
           <Card.Text>{text}</Card.Text>
           <Card.Subtitle className="text-muted">{date}</Card.Subtitle>
