@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 // import { Routes, Route } from "react-router-dom";
 import Note from "./components/Note";
 import NoteDetails from "./pages/note-details/note-details";
@@ -25,6 +25,21 @@ const App = () => {
       date: "06.03.2022",
     },
   ]);
+
+  useEffect(() => {
+    const savedNotes = JSON.parse(
+      localStorage.getItem("react-notes-task-data")
+    );
+
+    if (savedNotes) {
+      setNotes(savedNotes);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("react-notes-task-data", JSON.stringify(notes));
+  }, [notes]);
+
   const addNote = (text) => {
     const date = new Date();
     const newNote = {
@@ -35,18 +50,22 @@ const App = () => {
     const newNotes = [...notes, newNote];
     setNotes(newNotes);
   };
+
+  const deleteNote = (id) => {
+    const newNotes = notes.filter((note) => note.id !== id);
+    setNotes(newNotes);
+  };
   return (
     <div className="App">
       <Header />
       <Container className="mt-5">
-        {/* <Row>
-          <Col>
-            <CreateNotes notes={notes} setNotes={setNotes} />
-          </Col>
-        </Row> */}
         <Row>
           <Col>
-            <NotesList notes={notes} handleAddNote={addNote} />
+            <NotesList
+              notes={notes}
+              handleAddNote={addNote}
+              handleDeleteNote={deleteNote}
+            />
           </Col>
         </Row>
       </Container>
